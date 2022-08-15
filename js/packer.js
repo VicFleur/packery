@@ -3,7 +3,7 @@
  * bin-packing algorithm
  */
 
-(function (window, factory) {
+ (function (window, factory) {
     // universal module definition
     /* jshint strict: false */ /* globals define, module, require */
     if (typeof define == 'function' && define.amd) {
@@ -137,9 +137,16 @@
     proto.placeInSpace = function (rect, space) {
         // place rect in space
         if (this.center) {
-            console.log(space.x, this.center.x)
-            if (space.x >= this.center.x) rect.x = space.x + ((this.width - space.x) / 2) - (rect.width / 2)
-            else rect.x = (space.x + space.width - (space.width / 2) - (rect.width / 2));
+            if (space.width == this.width && this.width <= 728) {
+                rect.x = (this.width / 2) - rect.width
+            } else {
+                if ((rect.width - (40 * 2)) * 2 <= space.width && space.width < this.width) rect.x = space.x
+                else {
+                    if (space.x >= this.center.x) rect.x = space.x + ((this.width - space.x) / 2) - (rect.width / 2)
+                    else rect.x = (space.x + space.width - (space.width / 2) - (rect.width / 2));
+                }
+            }
+
             //rect.x = space.x >= this.center.x ? space.x : (space.x + space.width - rect.width);
             rect.y = space.y >= this.center.y ? space.y : (space.y + space.height - rect.height);
         } else {
